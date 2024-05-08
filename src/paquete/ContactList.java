@@ -1,5 +1,6 @@
 package paquete;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -22,14 +23,14 @@ public class ContactList
 	
 
 	/**
-	 * Descripción: crea
+	 * Descripción: pide los datos al usuario y crea un nuevo contacto
 	 * @return Contact
 	 */
 	public Contact createContact() {
 		
 		String name;
 		String surname;
-		Date birthdate;
+		LocalDate birthdate;
 		int anio;
 		int mes;
 		int dia;
@@ -45,19 +46,24 @@ public class ContactList
 		
 		System.out.println("\nIntroduzca su anio de nacimiento: ");
 		anio = sc.nextInt();
-		System.out.println("\nIntroduzca el mes:");
-		mes = sc.nextInt();
-		System.out.println("Introduzca el dia");
-		dia = sc.nextInt();
+		do {
+			System.out.println("\nIntroduzca el mes:");
+			mes = sc.nextInt();
+		}while(mes < 1 || mes > 12);
 		
-		birthdate = new Date(anio, mes, dia);
+		do {
+			System.out.println("Introduzca el dia");
+			dia = sc.nextInt();
+		}while(dia < 1 && dia > 31);
+		/* Creamos la instancia de birthdate */
+		birthdate = LocalDate.of(anio, mes, dia);
 		
-		System.out.println("Introduzca el prefijo telefonico (34 por defecto): ");
-		prefix = sc.nextLine();
 		/*
 		 * TODO
 		 * Controlar que el usuario no introduzca una letra en vez de números.
 		 */
+		System.out.println("Introduzca el prefijo telefonico (34 por defecto): ");
+		prefix = sc.nextLine();
 		
 		System.out.println("\nIntroduzca su numero de telefono: ");
 		phone = sc.nextLine();
