@@ -149,13 +149,14 @@ public class ContactList
 	 }
 	 
 	 /**
-	  * Descripción: muestra el número de elementos almacenados
+	  * Descripción: muestra el número de elementos almacenados y ofrece la opción de crear un contacto en caso de que esté vacía
 	  * @return: cantidad de contactos que hay
 	  */
 	 public int getNumberContacts() {
 		 
 		 int total = 0;
 		 char add = ' ';
+		 Contact c;
 		 
 		 for(Contact c: contactos) {
 			 
@@ -167,11 +168,17 @@ public class ContactList
 			 return total;
 		 else {
 			 System.out.println("NO hay contactos en la agenda.");
+			 /*pide confirmación para añadir un nuevo contacto*/
 			 System.out.println("¿Desea añadir un contacto?(S/N)");
 			 add = sc.next().charAt(0);
-			 if(add == 'S')
-				 
-			 /*pedir confirmación para añadir un nuevo contacto*/
+			 if(add == 'S' || add == 's') {
+				 c = createContact();
+				 if(addContact(c))
+					 System.out.println("\nSe ha creado el contacto.");
+				 else
+					 System.out.println("\nError. NO se ha podido crear el contacto");
+			 }else if(add == 'N' || add == 'n')
+				 System.out.println("\n. Ha elegido no crear contactos.");
 		 }
 	 }
 	 
