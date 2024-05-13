@@ -63,7 +63,7 @@ public class Contact extends Persona
 	 *  @param email <i> Correo de la persona </i>
 	 * */
 	
-	public Contact(String name, String surname, LocalDate birthdate, String email, String phone, short prefix) {
+	public Contact(String name, String surname, LocalDate birthdate, short prefix, String phone, String email ) {
 		super(name, surname, birthdate);
 		this.phone = phone;
 		this.email = email;
