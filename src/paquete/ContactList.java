@@ -89,7 +89,7 @@ public class ContactList
 		if(prefix.length() == 0) {
 			return new Contact(name, surname, birthdate, phone, email);
 		}else {
-			return new Contact(name, surname, birthdate, email, phone, Short.parseShort(prefix));
+			return new Contact(name, surname, birthdate, Short.parseShort(prefix), phone, email);
 		}
 	}
 	
@@ -118,7 +118,7 @@ public class ContactList
 	  * @param telefono
 	  * @return: el objeto si se ha encontrado y null en caso contrario.
 	  */
-	 private Contact getContact(String telefono, String prefijo) {
+	 private Contact getContact(String telefono, short prefijo) {
 		 
 		 for(Contact c: contactos) {
 			 if(c.getPrefix() == 34)
@@ -138,9 +138,9 @@ public class ContactList
 	  * @param telefono
 	  * @return: muestran los datos del contacto en caso de existir y un mensaje de advertencia si no existe
 	  */
-	 public void showContact(String telefono) {
+	 public void showContact(String telefono, short prefijo) {
 		 
-		 Contact buscado = getContact(telefono);
+		 Contact buscado = getContact(telefono, prefijo);
 		 
 		 if(buscado == null)
 			 System.out.println("\nNo existe el contacto buscado.");
@@ -155,8 +155,8 @@ public class ContactList
 	  * @param telefono
 	  * @return: boolean que indica si se ha realizado correctamente el proceso
 	  */
-	 public boolean deleteContact(String telefono) {
-		 Contact buscado = getContact(telefono);
+	 public boolean deleteContact(String telefono, short prefijo) {
+		 Contact buscado = getContact(telefono, prefijo);
 		 
 		 if(buscado != null) {
 			 buscado = null;
