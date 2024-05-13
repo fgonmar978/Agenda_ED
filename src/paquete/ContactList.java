@@ -67,12 +67,17 @@ public class ContactList
 		/* Creamos la instancia de birthdate */
 		birthdate = LocalDate.of(anio, mes, dia);
 		
-		/*
-		 * TODO
-		 * Controlar que el usuario no introduzca una letra en vez de números.
-		 */
 		System.out.println("Introduzca el prefijo telefonico (34 por defecto): ");
 		prefix = sc.nextLine();
+		/*
+		 * Comprobamos que el usuario haya introducido números en vez de letras.
+		 */
+		try {
+			short pre = Short.parseShort(prefix);
+		}catch(NumberFormatException e) {
+			System.err.println(e.toString());
+		}
+		
 		
 		System.out.println("\nIntroduzca su numero de telefono: ");
 		phone = sc.nextLine();
@@ -84,7 +89,7 @@ public class ContactList
 		if(prefix.length() == 0) {
 			return new Contact(name, surname, birthdate, phone, email);
 		}else {
-			return new Contact(name, surname, birthdate, Short.parseShort(prefix), phone, email);
+			return new Contact(name, surname, birthdate, email, phone, Short.parseShort(prefix));
 		}
 	}
 	
@@ -113,11 +118,15 @@ public class ContactList
 	  * @param telefono
 	  * @return: el objeto si se ha encontrado y null en caso contrario.
 	  */
-	 private Contact getContact(String telefono) {
+	 private Contact getContact(String telefono, String prefijo) {
 		 
 		 for(Contact c: contactos) {
-			 if(c.getTel() == telefono)
-				 return c;
+			 if(c.getPrefix() == 34)
+				 if(c.comparePhone(telefono))
+					 return c;
+			 else
+				 if(c.comparePhone(prefijo, telefono))
+					 return c;
 		 }
 		 
 		 return null;
