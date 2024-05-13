@@ -7,7 +7,15 @@ import java.util.Scanner;
 public class ContactList
 {
 
-	Scanner sc = new Scanner(System.in);
+	/**
+	 * Constante
+	 */
+	final int TAM = 10;
+	
+	/**
+	 * Atributo: escáner
+	 */
+	Scanner sc;
 	
 	/**
 	 * Atributo : array de contacto
@@ -17,8 +25,9 @@ public class ContactList
 	/**
 	 * Constructor: crea el array contactos
 	 */
-	public ContactList() {
-		contactos = new Contact[10];
+	public ContactList(Scanner scanner) {
+		contactos = new Contact[TAM];
+		this.sc = scanner;
 	}
 	
 
@@ -82,7 +91,7 @@ public class ContactList
 	
 	/**
 	 * Descripción: añade un contacto nuevo en la lista
-	 * Parámetros: Contacto c
+	 * @param c
 	 * @return: si se ha realizado la inserción con éxito: boolean
 	 */
 	public boolean addContact(Contact c) {
@@ -117,7 +126,7 @@ public class ContactList
 	 
 	 /**
 	  * Descripción: muestra los datos del contacto buscado si existe
-	  * Parámetros: telefono: String
+	  * @param telefono
 	  * @return: muestran los datos del contacto en caso de existir y un mensaje de advertencia si no existe
 	  */
 	 public void showContact(String telefono) {
@@ -134,7 +143,7 @@ public class ContactList
 	 
 	 /**
 	  * Descripción: elimina el contacto seleccionado
-	  * Parámetros: telefono: String
+	  * @param telefono
 	  * @return: boolean que indica si se ha realizado correctamente el proceso
 	  */
 	 public boolean deleteContact(String telefono) {
@@ -149,14 +158,12 @@ public class ContactList
 	 }
 	 
 	 /**
-	  * Descripción: muestra el número de elementos almacenados y ofrece la opción de crear un contacto en caso de que esté vacía
+	  * Descripción: muestra el número de elementos almacenados
 	  * @return: cantidad de contactos que hay
 	  */
 	 public int getNumberContacts() {
 		 
 		 int total = 0;
-		 char add = ' ';
-		 Contact c;
 		 
 		 for(Contact c: contactos) {
 			 
@@ -164,22 +171,7 @@ public class ContactList
 				 total += 1;
 		 }
 		 
-		 if(total > 0)
-			 return total;
-		 else {
-			 System.out.println("NO hay contactos en la agenda.");
-			 /*pide confirmación para añadir un nuevo contacto*/
-			 System.out.println("¿Desea añadir un contacto?(S/N)");
-			 add = sc.next().charAt(0);
-			 if(add == 'S' || add == 's') {
-				 c = createContact();
-				 if(addContact(c))
-					 System.out.println("\nSe ha creado el contacto.");
-				 else
-					 System.out.println("\nError. NO se ha podido crear el contacto");
-			 }else if(add == 'N' || add == 'n')
-				 System.out.println("\n. Ha elegido no crear contactos.");
-		 }
+		 return total;
 	 }
 	 
 	 
@@ -200,12 +192,4 @@ public class ContactList
 		 } 
 	 }
 	 
-	 
-	 /**
-	  * Descripción: genera un listado en fichero
-	  * 
-	  */
-	 /*public boolean saveToFile()*/
-		
-	
 }
