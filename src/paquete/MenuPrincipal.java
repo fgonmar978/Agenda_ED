@@ -2,7 +2,7 @@ package paquete;
 
 public class MenuPrincipal extends Menu
 {
-    private Lista listaContactos;
+    private ContactList listaContactos;
 
     public MenuPrincipal(String[] opciones, String titulo)
     {
