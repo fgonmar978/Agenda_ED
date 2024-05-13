@@ -7,67 +7,67 @@ public class Contact extends Persona
 	/**
 	 * Atributo: prefijo
 	 */
-	private short prefijo;
+	private short prefix;
 	/**
 	 * Atributo: telefono
 	 */
-	private String telefono;
+	private String phone;
 	/**
 	 * Atributo: correo
 	 */
-	private String correo;
+	private String email;
 	/**
 	 * Constante: prefijo de serie
 	 */
-	 public static final short PREFIJO_DEFAULT = 34;
+	 public static final short PREFIX_DEFAULT = 34;
 	 
 	/**
 	 * Constructor 1
 	 * <b>Descripcion</b>:Crea el objeto contacto con nombre, apellidos, fecha de nacimiento y telefono
-	 * @param nombre <i> Nombre del contacto </i>
-	 * @param apellidos <i> Apellidos del contacto </i>
-	 * @param fechaNac <i> Fecha de nacimiento del contacto<i>
-	 * @param telefono <i> Telefono de la persona </i>
+	 * @param name <i> Nombre del contacto </i>
+	 * @param surname <i> Apellidos del contacto </i>
+	 * @param birthdate <i> Fecha de nacimiento del contacto<i>
+	 * @param phone <i> Telefono de la persona </i>
 	 * */
 	 
-	public Contact(String nombre, String apellidos, LocalDate fechaNac, String telefono) {
-		super(nombre, apellidos, fechaNac);
-		this.telefono = telefono;
-		prefijo = 34;
+	public Contact(String name, String surname, LocalDate birthdate, String phone) {
+		super(name, surname, birthdate);
+		this.phone = phone;
+		prefix = 34;
 	}
 	
 	/**
 	 * Constructor 2
 	 * <b>Descripcion</b>:Crea el objeto contacto con nombre, apellidos, fecha de nacimiento, telefono y correo
-	 * @param nombre <i> Nombre del contacto </i>
-	 * @param apellidos <i> Apellidos del contacto </i>
-	 * @param fechaNac <i> Fecha de nacimiento del contacto<i>
-	 * @param telefono <i> Telefono de la persona </i>
-	 *  @param correo <i> Correo de la persona </i>
+	 * @param name <i> Nombre del contacto </i>
+	 * @param surname <i> Apellidos del contacto </i>
+	 * @param birthdate <i> Fecha de nacimiento del contacto<i>
+	 * @param phone <i> Telefono de la persona </i>
+	 *  @param email <i> Correo de la persona </i>
 	 * */
 	
-	public Contact(String nombre, String apellidos, LocalDate fechaNac, String correo, String telefono) {
-		super(nombre, apellidos, fechaNac);
-		this.telefono = telefono;
-		this.correo = correo;
-		prefijo = PREFIJO_DEFAULT;
+	public Contact(String name, String surname, LocalDate birthdate, String email, String phone) {
+		super(name, surname, birthdate);
+		this.phone = phone;
+		this.email = email;
+		prefix = PREFIX_DEFAULT;
 	}
 	
 	/**
 	 * Constructor 3
 	 * <b>Descripcion</b>:Crea el objeto contacto con nombre, apellidos, fecha de nacimiento, telefono y correo
-	 * @param nombre <i> Nombre del contacto </i>
-	 * @param apellidos <i> Apellidos del contacto </i>
-	 * @param fechaNac <i> Fecha de nacimiento del contacto<i>
-	 * @param telefono <i> Telefono de la persona </i>
-	 *  @param correo <i> Correo de la persona </i>
+	 * @param name <i> Nombre del contacto </i>
+	 * @param surname <i> Apellidos del contacto </i>
+	 * @param birthdate <i> Fecha de nacimiento del contacto<i>
+	 * @param phone <i> Telefono de la persona </i>
+	 *  @param email <i> Correo de la persona </i>
 	 * */
 	
-	public Contact(String nombre, String apellidos, LocalDate fechaNac, String correo, String telefono, short prefijo) {
-		super(nombre, apellidos, fechaNac);
-		this.telefono = telefono;
-		this.correo = correo;
-		this.prefijo = prefijo;
+	public Contact(String name, String surname, LocalDate birthdate, short prefix, String phone, String email ) {
+		super(name, surname, birthdate);
+		this.phone = phone;
+		this.email = email;
+		this.prefix = prefix;
 	}
 	
 	/**
@@ -77,8 +77,8 @@ public class Contact extends Persona
 	 *<b>Estado</b>: Funcional
 	 * */
 	
-	public short getPrefijo() {
-		return prefijo;
+	public short getPrefix() {
+		return prefix;
 	}
 	
 	/**
@@ -88,8 +88,8 @@ public class Contact extends Persona
 	 *<b>Estado</b>: Funcional
 	 * */
 	
-	public void setPrefijo(short prefijo) {
-		this.prefijo = prefijo;
+	public void setPrefix(short prefix) {
+		this.prefix = prefix;
 	}
 	
 	/**
@@ -99,8 +99,8 @@ public class Contact extends Persona
 	 *<b>Estado</b>: Funcional
 	 * */
 	
-	public String getTelefono() {
-		return telefono;
+	public String getPhone() {
+		return phone;
 	}
 	
 	/**
@@ -110,8 +110,8 @@ public class Contact extends Persona
 	 *<b>Estado</b>: Funcional
 	 * */
 	
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	/**
@@ -120,8 +120,8 @@ public class Contact extends Persona
 	 *<b>Valor retornado</b>:Cadena de caracteres que representa el correo
 	 *<b>Estado</b>: Funcional
 	 * */
-	public String getCorreo() {
-		return correo;
+	public String getEmail() {
+		return email;
 	}
 	
 	/**
@@ -131,17 +131,26 @@ public class Contact extends Persona
 	 *<b>Estado</b>: Funcional
 	 * */
 	
-	public void setCorreo(String correo) {
-		this.correo = correo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
-	
-	public boolean compararTelefono(short prefijo, String telefono) {
-		if(this.telefono.equals(telefono)) return true;
-
+	public boolean comparePhone(short prefix, String phone) {
+		if(this.phone.equals(phone) && this.prefix == prefix) return true;
 		
 		return false;
 	}
-	
-	
+	public boolean comparePhone(String phone) {
+		if(this.phone.equals(phone)) return true;
+		
+		return false;
+	}
+	/* 
+	@Override
+	public boolean equals(Object contact) {
+		if(this.phone.equals(phone) && this.prefix == prefix) return true;
+		
+		return false;
+	}
+	*/
 }
