@@ -99,7 +99,7 @@ public class Contact extends Persona
 	 *<b>Estado</b>: Funcional
 	 * */
 	
-	public String getTelefono() {
+	public String getTel() {
 		return telefono;
 	}
 	
@@ -134,7 +134,6 @@ public class Contact extends Persona
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	
 	
 	public boolean compararTelefono(short prefijo, String telefono) {
 		if(this.telefono.equals(telefono)) return true;
