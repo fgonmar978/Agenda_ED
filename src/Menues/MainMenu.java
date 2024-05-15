@@ -39,102 +39,117 @@ public class MainMenu extends Menu
 
         switch (option)
         {
-        //Salir
-        case 0:
-            return false;
+            //Salir
+            case 0:
+                return false;
 
-        //Crear contacto
-        case 1:
-            if (contactList.addContact(contactList.createContact()))
-            {
-                System.out.println("Contacto creado");
-            } else
-            {
-                System.out.println("No se ha podido crear el contacto");
-            }
-            break;
-
-        //Editar contacto
-        case 2:
-            //TODO: EDITAR CONTACTO
-
-            break;
-
-        //Consultar contacto
-        case 3:
-            prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
-            phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
-            
-            //TODO: Controlar errores de conversion
-
-            if (prefix.length() == 0)
-                contactList.showContact(phone, (short) 34);
-            else
-                contactList.showContact(phone, Short.parseShort(prefix));
-
-            break;
-
-        //Eliminar contacto
-        case 4:
-            prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
-            phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
-            
-            //TODO: Controlar errores de conversion
-
-            if (prefix.length() == 0)
-                contactList.deleteContact(phone, (short) 34);
-            else
-                contactList.deleteContact(phone, Short.parseShort(prefix));
-
-            break;
-
-        //Numero de contactos
-        case 5:
-            nContacts = contactList.getNumberContacts();
-            if (nContacts <= 0)
-            {
-
-                System.out.println("NO hay contactos en la agenda.");
-                /*pide confirmación para añadir un nuevo contacto*/
-
-                if (InputManager.askTrueFalseQuestion("¿Desea añadir un contacto?(S/N): "))
+            //Crear contacto
+            case 1:
+                if (contactList.addContact(contactList.createContact()))
                 {
-                    contact = contactList.createContact();
-
-                    if (contactList.addContact(contact))
-                        System.out.println("\nSe ha creado el contacto.");
-                    else
-                        System.out.println("\nError. NO se ha podido crear el contacto");
+                    System.out.println("Contacto creado");
                 } else
-                    System.out.println("\n. Ha elegido no crear contactos.");
-            }
-            break;
-
-        //Mostrar todos los contactos
-        case 6:
-            nContacts = contactList.getNumberContacts();
-
-            if (nContacts <= 0)
-            {
-                System.out.println("No hay contactos en la agenda");
+                {
+                    System.out.println("No se ha podido crear el contacto");
+                }
                 break;
-            }
 
-            contactList.showContacts();
+            //Editar contacto
+            case 2:            
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
 
-            break;
+                //TODO: Controlar errores de conversion
+                if (prefix.isBlank())
+                    editingContact(contactList.getContact(phone, Contact.PREFIX_DEFAULT));
+                else
+                    editingContact(contactList.getContact(phone, Short.parseShort(prefix)));
+                    
+                break;
 
-        //Listar en fichero de texto
-        case 7:
-            break;
+            //Consultar contacto
+            case 3:
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
+                
+                //TODO: Controlar errores de conversion
 
-        //Configuracion encriptacion
-        case 8:
-            break;
+                if (prefix.isBlank())
+                    contactList.showContact(phone, Contact.PREFIX_DEFAULT);
+                else
+                    contactList.showContact(phone, Short.parseShort(prefix));
 
-        default:
-            System.out.println("Opcion no valida");
-            break;
+                break;
+
+            //Eliminar contacto
+            case 4:
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
+                
+                //TODO: Controlar errores de conversion
+
+                if (prefix.isBlank())
+                    if (!contactList.deleteContact(phone, Contact.PREFIX_DEFAULT))
+                        System.err.println("No se ha encontrado el contacto");
+                    else
+                        System.err.println("No se ha encontrado el contacto");
+                else
+                    if (!contactList.deleteContact(phone, Short.parseShort(prefix)))
+                        System.err.println("No se ha encontrado el contacto");
+                    else
+                        System.err.println("No se ha encontrado el contacto");
+
+                break;
+
+            //Numero de contactos
+            case 5:
+                nContacts = contactList.getNumberContacts();
+                if (nContacts <= 0)
+                {
+
+                    System.out.println("NO hay contactos en la agenda.");
+                    /*pide confirmación para añadir un nuevo contacto*/
+
+                    if (InputManager.askTrueFalseQuestion("¿Desea añadir un contacto?(S/N): "))
+                    {
+                        contact = contactList.createContact();
+
+                        if (contactList.addContact(contact))
+                            System.out.println("\nSe ha creado el contacto.");
+                        else
+                            System.out.println("\nError. NO se ha podido crear el contacto");
+                    } else
+                        System.out.println("\n. Ha elegido no crear contactos.");
+                }
+                else
+                    System.out.println("Numero de contactos: " + nContacts);
+                break;
+
+            //Mostrar todos los contactos
+            case 6:
+                nContacts = contactList.getNumberContacts();
+
+                if (nContacts <= 0)
+                {
+                    System.out.println("No hay contactos en la agenda");
+                    break;
+                }
+
+                contactList.showContacts();
+
+                break;
+
+            //Listar en fichero de texto
+            case 7:
+                break;
+
+            //Configuracion encriptacion
+            case 8:
+                break;
+
+            default:
+                System.out.println("Opcion no valida");
+                break;
         }
 
         return true;
@@ -154,5 +169,20 @@ public class MainMenu extends Menu
             System.out.println(editMenu);
             option = InputManager.askForInt("Selecciona una opcion: ");
         } while (editMenu.selectOption(option));
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuffer menuString = new StringBuffer();
+        menuString.append(title);
+        menuString.append("\n-----------------\n");
+
+        for (int i = 0; i < editOptions.length; i++)
+        {
+            menuString.append(String.format("%d: %s\n", i, options[i]));
+        }
+
+        return menuString.toString();
     }
 }
