@@ -45,9 +45,7 @@ public class ContactList
 		String email;
 		
 		name = InputManager.askForString("\nIntroduzca nombre del contacto: ", false);
-		
 		surname = InputManager.askForString("\nIntroduzca apellido del contacto: ", false);
-		
 		anio = InputManager.askForInt("\nIntroduzca su anio de nacimiento: ");
 
 		do {
