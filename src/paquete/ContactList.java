@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
 
+import IO_Managers.InputManager;
+
 public class ContactList
 {
 
@@ -13,11 +15,6 @@ public class ContactList
 	final int TAM = 10;
 	
 	/**
-	 * Atributo: escáner
-	 */
-	Scanner sc;
-	
-	/**
 	 * Atributo : array de contacto
 	 */
 	private Contact contactos[];
@@ -25,9 +22,8 @@ public class ContactList
 	/**
 	 * Constructor: crea el array contactos
 	 */
-	public ContactList(Scanner scanner) {
+	public ContactList() {
 		contactos = new Contact[TAM];
-		this.sc = scanner;
 	}
 	
 
@@ -44,53 +40,48 @@ public class ContactList
 		int mes;
 		int dia;
 		String prefix;
+		short pre = 0;
 		String phone;
 		String email;
 		
-		System.out.println("\nIntroduzca nombre del contacto: ");
-		name = sc.nextLine();
+		name = InputManager.askForString("\nIntroduzca nombre del contacto: ", false);
 		
-		System.out.println("\nIntroduzca apellido del contacto: ");
-		surname = sc.nextLine();
+		surname = InputManager.askForString("\nIntroduzca apellido del contacto: ", false);
 		
-		System.out.println("\nIntroduzca su anio de nacimiento: ");
-		anio = sc.nextInt();
+		anio = InputManager.askForInt("\nIntroduzca su anio de nacimiento: ");
+
 		do {
-			System.out.println("\nIntroduzca el mes:");
-			mes = sc.nextInt();
+			mes = InputManager.askForInt("\nIntroduzca el mes:");
 		}while(mes < 1 || mes > 12);
 		
 		do {
-			System.out.println("Introduzca el dia");
-			dia = sc.nextInt();
+			dia = InputManager.askForInt("\nIntroduzca el dia:");
 		}while(dia < 1 && dia > 31);
 		/* Creamos la instancia de birthdate */
 		birthdate = LocalDate.of(anio, mes, dia);
 		
-		System.out.println("Introduzca el prefijo telefonico (34 por defecto): ");
-		prefix = sc.nextLine();
-		/*
-		 * Comprobamos que el usuario haya introducido números en vez de letras.
-		 */
-		try {
-			short pre = Short.parseShort(prefix);
-		}catch(NumberFormatException e) {
-			System.err.println(e.toString());
-		}
-		
-		
-		System.out.println("\nIntroduzca su numero de telefono: ");
-		phone = sc.nextLine();
-		
-		System.out.println("\nIntroduzca su correo electronico: ");
-		email = sc.nextLine();
-		
+		prefix = InputManager.askForString("\nIntroduzca el prefijo telefonico (34 por defecto): ", true);		
+		phone = InputManager.askForString("\nIntroduzca su numero de telefono: ", false);
+		email = InputManager.askForString("\nIntroduzca su correo electronico: ", false);		
 				 
 		if(prefix.length() == 0) {
 			return new Contact(name, surname, birthdate, phone, email);
 		}else {
-			return new Contact(name, surname, birthdate, Short.parseShort(prefix), phone, email);
+			
+			/*
+			 * Comprobamos que el usuario haya introducido números en vez de letras.
+			 */
+			try {
+				pre = Short.parseShort(prefix);
+			}catch(NumberFormatException e) {
+				System.err.println(e.toString());
+				System.out.println("\nSe ha creado un contacto con prefijo por defecto(+34)");
+				return new Contact(name, surname, birthdate, phone, email);
+			}
+			
+			return new Contact(name, surname, birthdate, pre, phone, email);
 		}
+		
 	}
 	
 	
