@@ -157,7 +157,12 @@ public class Contact extends Persona
 		
 		return false;
 	}
-
+	/**
+	 * <b>Descripcion</b>: Devuelve un string con la representación de un contacto
+	 * <b>Parámetros</b>
+	 * <b>Valor retornado</b>: String con la informacion del contacto
+	 * <b>Estado</b>:Funcional 
+	 * */
 	@Override
 	public String toString() {
 		return "Contact:\n prefix:" + prefix + "\n phone:" + phone + "\n email:" + email;
