@@ -109,7 +109,7 @@ public class ContactList
 	  * @param telefono
 	  * @return: el objeto si se ha encontrado y null en caso contrario.
 	  */
-	 private Contact getContact(String telefono, short prefijo) {
+	 public Contact getContact(String telefono, short prefijo) {
 		 
 		 for(Contact c: contactos) {
 			 if(c.getPrefix() == 34)
