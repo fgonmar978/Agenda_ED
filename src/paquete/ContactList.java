@@ -62,7 +62,7 @@ public class ContactList
 		phone = InputManager.askForString("\nIntroduzca su numero de telefono: ", false);
 		email = InputManager.askForString("\nIntroduzca su correo electronico: ", false);		
 				 
-		if(prefix.length() == 0) {
+		if(prefix.isBlank()) {
 			return new Contact(name, surname, birthdate, phone, email);
 		}else {
 			
@@ -110,7 +110,12 @@ public class ContactList
 	 public Contact getContact(String telefono, short prefijo) {
 		 
 		 for(Contact c: contactos) {
-			 if(c.getPrefix() == 34)
+			 
+			 if(c == null) {
+				 continue;
+			 }
+			 
+			 if(c.getPrefix() == Contact.PREFIX_DEFAULT)
 				 if(c.comparePhone(telefono))
 					 return c;
 			 else
