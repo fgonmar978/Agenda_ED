@@ -130,21 +130,45 @@ public class Contact extends Persona
 	 *<b>Valor retornado</b>
 	 *<b>Estado</b>: Funcional
 	 * */
-	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	/**
+	 * <b>Descripcion</b>: Compara el telefono y prefijo de este de un contacto
+	 * <b>Parámetros</b>: Short, cadena de caracteres
+	 * <b>Valor retornado</b>: Verdadero si se cumple la condicion, falso en caso contrario
+	 * <b>Estado</b>:Funcional 
+	 * */
 	
 	public boolean comparePhone(short prefix, String phone) {
 		if(this.phone.equals(phone) && this.prefix == prefix) return true;
 		
 		return false;
 	}
+	/**
+	 * <b>Descripcion</b>: Compara el telefono de un contacto
+	 * <b>Parámetros</b>: Cadena de caracteres
+	 * <b>Valor retornado</b>: Verdadero si se cumple la condicion, falso en caso contrario
+	 * <b>Estado</b>:Funcional 
+	 * */
 	public boolean comparePhone(String phone) {
 		if(this.phone.equals(phone)) return true;
 		
 		return false;
 	}
+	/**
+	 * <b>Descripcion</b>: Devuelve un string con la representación de un contacto
+	 * <b>Parámetros</b>
+	 * <b>Valor retornado</b>: String con la informacion del contacto
+	 * <b>Estado</b>:Funcional 
+	 * */
+	@Override
+	public String toString() {
+		return "Contact:\n prefix:" + prefix + "\n phone:" + phone + "\n email:" + email;
+	}
+	
+	
 	/* 
 	@Override
 	public boolean equals(Object contact) {
