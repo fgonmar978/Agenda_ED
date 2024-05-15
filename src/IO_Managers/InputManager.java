@@ -42,6 +42,9 @@ public class InputManager
 
         number = scanner.nextInt();
 
+        //Limpieza de buffer
+        scanner.nextLine();
+
         return number;
     }
 
