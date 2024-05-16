@@ -63,7 +63,7 @@ public class ContactList
 		email = InputManager.askForString("\nIntroduzca su correo electronico: ", false);		
 				 
 		if(prefix.isBlank()) {
-			return new Contact(name, surname, birthdate, phone, email);
+			return new Contact(name, surname, birthdate, email, phone);
 		}else {
 			
 			/*
@@ -74,7 +74,7 @@ public class ContactList
 			}catch(NumberFormatException e) {
 				System.err.println(e.toString());
 				System.out.println("\nSe ha creado un contacto con prefijo por defecto(+34)");
-				return new Contact(name, surname, birthdate, phone, email);
+				return new Contact(name, surname, birthdate, email, phone);
 			}
 			
 			return new Contact(name, surname, birthdate, pre, phone, email);
