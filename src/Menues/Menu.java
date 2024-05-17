@@ -32,6 +32,16 @@ public abstract class Menu
         "Editar correo"
     };
 
+    public static String[] encryptOptions =
+    {
+        "Volver al menu principal",
+        "Cambiar el tipo de encriptacion a XOR",
+        "Cambiar el tipo de encriptacion a CESAR",
+        "Cambiar el tipo de encriptacion a AMPLIACION OPCIONAL",
+        "Cambiar el tipo de encriptacion a PROPIO",
+        "No usar encriptacion"
+    };
+
     /**Opciones del menu*/
     protected String[] options;
     protected String title;
@@ -62,7 +72,7 @@ public abstract class Menu
     /**
      * Ejecuta el codigo de la opcion seleccionada
      * @param opcion opcion a ejecutar : int
-     * @return 
+     * @return True: debe seguir ejecutandose el menu, False: se ha pulsado el boton de salir
      */
     public abstract boolean selectOption(int option);
 

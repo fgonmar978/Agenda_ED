@@ -13,6 +13,7 @@ public class EditMenu extends Menu
     //Contacto a editar
     private Contact contact;
 
+
     public EditMenu(String[] options, String title)
     {
         super(options, title);
@@ -31,6 +32,7 @@ public class EditMenu extends Menu
             //Editar nombre
             case 1:
                 contact.setNombre(InputManager.askForString("Introduce el nuevo nombre: ", false));
+                changeTitleContactName(contact.getNombre());
                 break;
             
             //Editar apellidos
@@ -88,8 +90,17 @@ public class EditMenu extends Menu
      */
     public void setContact(Contact contact)
     {
-        title = baseTitle + ": " + contact.getNombre();
+        changeTitleContactName(contact.getNombre());
         this.contact = contact;
+    }
+
+    /**
+     * Cambia el nombre del contacto en el titulo del menu
+     * @param name nuevo nombre del contacto
+     */
+    private void changeTitleContactName(String name)
+    {
+        title = baseTitle + ": " + name;
     }
 
 }

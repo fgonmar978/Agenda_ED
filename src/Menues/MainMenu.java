@@ -13,7 +13,8 @@ import paquete.ContactList;
 public class MainMenu extends Menu
 {
     private ContactList contactList;
-    EditMenu editMenu;
+    private EditMenu editMenu;
+    private EncryptMenu encryptMenu;
 
     /**
      * Crea un nuevo menu principal
@@ -27,6 +28,7 @@ public class MainMenu extends Menu
         super(options, title);
         this.contactList = contactList;
         editMenu = new EditMenu(Menu.editOptions, "Editando contacto");
+        encryptMenu = new EncryptMenu(Menu.encryptOptions, "Seleccion de encriptacion");
     }
 
     @Override
@@ -92,12 +94,12 @@ public class MainMenu extends Menu
                     if (!contactList.deleteContact(phone, Contact.PREFIX_DEFAULT))
                         System.err.println("No se ha encontrado el contacto");
                     else
-                        System.err.println("No se ha encontrado el contacto");
+                        System.err.println("Se ha eliminado el contacto");
                 else
                     if (!contactList.deleteContact(phone, Short.parseShort(prefix)))
                         System.err.println("No se ha encontrado el contacto");
                     else
-                        System.err.println("No se ha encontrado el contacto");
+                        System.err.println("Se ha eliminado el contacto");
 
                 break;
 
@@ -145,6 +147,7 @@ public class MainMenu extends Menu
 
             //Configuracion encriptacion
             case 8:
+                editingEncryption();
                 break;
 
             default:
@@ -169,6 +172,21 @@ public class MainMenu extends Menu
             System.out.println(editMenu);
             option = InputManager.askForInt("Selecciona una opcion: ");
         } while (editMenu.selectOption(option));
+    }
+
+    /**
+     * Controlador del menu de configuracion de encriptacion
+     * @param contact contacto a editar
+     */
+    private void editingEncryption()
+    {
+        int option;
+
+        do
+        {
+            System.out.println(encryptMenu);
+            option = InputManager.askForInt("Selecciona una opcion: ");
+        } while (encryptMenu.selectOption(option));
     }
 
     @Override
