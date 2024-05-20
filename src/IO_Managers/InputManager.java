@@ -23,7 +23,7 @@ public class InputManager
 
         System.out.print(message);
 
-        string = scanner.nextLine();
+        string = scanner.nextLine().trim();
 
         return string;
     }
