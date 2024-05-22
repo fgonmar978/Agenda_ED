@@ -12,7 +12,7 @@ public class ContactList
 	/**
 	 * Constante
 	 */
-	final int TAM = 10;
+	public static final int TAM = 10;
 	
 	/**
 	 * Atributo : array de contacto
@@ -26,6 +26,15 @@ public class ContactList
 		contactos = new Contact[TAM];
 	}
 	
+	
+	/**
+	 * Getter del ContactList
+	 * @return Contact[]
+	 */
+	public Contact[] getContactos() {
+		return contactos;
+	}
+
 
 	/**
 	 * Descripción: pide los datos al usuario y crea un nuevo contacto
