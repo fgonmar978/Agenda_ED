@@ -61,11 +61,17 @@ public class MainMenu extends Menu
                 prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
 
-                //TODO: Controlar errores de conversion
                 if (prefix.isBlank())
                     editingContact(contactList.getContact(phone, Contact.PREFIX_DEFAULT));
                 else
-                    editingContact(contactList.getContact(phone, Short.parseShort(prefix)));
+                    try
+                    {
+                        editingContact(contactList.getContact(phone, Short.parseShort(prefix)));
+                    } 
+                    catch (Exception e)
+                    {
+                        System.err.println("Error al leer el prefijo de numero");
+                    }
                     
                 break;
 
@@ -74,12 +80,17 @@ public class MainMenu extends Menu
                 prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
                 
-                //TODO: Controlar errores de conversion
-
                 if (prefix.isBlank())
                     contactList.showContact(phone, Contact.PREFIX_DEFAULT);
                 else
-                    contactList.showContact(phone, Short.parseShort(prefix));
+                    try
+                    {
+                        contactList.showContact(phone, Short.parseShort(prefix));
+                    } 
+                    catch (Exception e)
+                    {
+                        System.err.println("Error al leer el prefijo de numero");
+                    }
 
                 break;
 
@@ -88,19 +99,24 @@ public class MainMenu extends Menu
                 prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
                 
-                //TODO: Controlar errores de conversion
-
                 if (prefix.isBlank())
                     if (!contactList.deleteContact(phone, Contact.PREFIX_DEFAULT))
                         System.err.println("No se ha encontrado el contacto");
                     else
                         System.err.println("Se ha eliminado el contacto");
                 else
-                    if (!contactList.deleteContact(phone, Short.parseShort(prefix)))
-                        System.err.println("No se ha encontrado el contacto");
-                    else
-                        System.err.println("Se ha eliminado el contacto");
-
+                    try
+                    {
+                        if (!contactList.deleteContact(phone, Short.parseShort(prefix)))
+                            System.err.println("No se ha encontrado el contacto");
+                        else
+                            System.err.println("Se ha eliminado el contacto");
+                    } 
+                    catch (Exception e)
+                    {
+                        System.err.println("Error al leer el prefijo de numero");
+                    }
+                    
                 break;
 
             //Numero de contactos

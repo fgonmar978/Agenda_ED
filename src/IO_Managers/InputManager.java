@@ -20,10 +20,10 @@ public class InputManager
     {
         String string;
 
-        System.out.print(message);
 
         do
         {
+            System.out.print(message);
             string = scanner.nextLine().trim();
         } while (!allowEmpty && string.isBlank());
 
@@ -39,12 +39,12 @@ public class InputManager
     {
         int number = 0;
 
-        System.out.print(message);
-
         boolean error;
 
         do
         {
+            System.out.print(message);
+
             error = false;
 
             try
@@ -56,11 +56,13 @@ public class InputManager
                 System.err.println("Se debe introducir un numero");
                 error = true;
             }
+            finally
+            {
+                //Limpieza de buffer
+                scanner.nextLine();
+            }
 
         } while (error);
-        
-        //Limpieza de buffer
-        scanner.nextLine();
 
         return number;
     }
@@ -72,14 +74,14 @@ public class InputManager
      */
     public static boolean askTrueFalseQuestion(String question)
     {
-        System.out.print(question);
-
         char charRead = 'c';
         
         boolean error;
 
         do
         {
+            System.out.print(question);
+
             error = false;
 
             try
