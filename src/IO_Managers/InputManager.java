@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 /**
  * Clase que se encarga de manejar las entradas de teclado
+ * @author Francisco Manuel Gonzalez Martin
+ * @version 1.0
  */
 public class InputManager
 {

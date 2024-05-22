@@ -1,5 +1,10 @@
 package IO_Managers;
 
+/**
+ * Enum que representa los tipos de encriptacion disponibles
+ * @author Francisco Manuel Gonzalez Martin
+ * @version 1.0
+ */
 public enum EncryptionType
 {
     XOR,

@@ -7,13 +7,17 @@ import paquete.ContactList;
 /**
  * Clase que representa el menu principal
  * @author Francisco Manuel Gonzalez Martin
- * @version 0.1
- * @since 25/4/2024
+ * @version 1.0
  */
 public class MainMenu extends Menu
 {
+    /**Lista de contactos con la que trabajara el menu */
     private ContactList contactList;
+
+    /**Menu para editar un contacto */
     private EditMenu editMenu;
+
+    /**Menu para editar que tipo de encriptacion se va a usar */
     private EncryptMenu encryptMenu;
 
     /**

@@ -6,13 +6,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Clase que se encarga de encriptar/desencriptar informacion para despues escribirla o leerla de un fichero binario
+ * @author Francisco Manuel Gonzalez Martin
+ * @since 22/5/2024
+ * @version 1.0
+ */
 public class Encrypter
 {
+    /**Tipo de encriptacion por defecto */
     public static final EncryptionType DEFAULT_ENCRYPTION_TYPE = EncryptionType.XOR;
+
+    /**Tipo de encriptacion seleccionada */
     public static EncryptionType selectedEncryptionType = DEFAULT_ENCRYPTION_TYPE;
 
-    private static final byte xorKey = 74;
-    private static final int cesarShift = 1;
+    /**Clave usada para el cifrado XOR */
+    private static final byte XOR_KEY = 74;
+
+    /**Desplazamiento usado por el cifrado cesar */
+    private static final int CESAR_SHIFT = 1;
 
     /**
      * Crea un fichero, encripta si es necesario los bytes de datos y lo guarda en disco
@@ -125,7 +137,7 @@ public class Encrypter
     {
         for (int i = 0; i < fileData.length; i++)
         {
-            fileData[i] = (byte) (fileData[i] ^ xorKey);
+            fileData[i] = (byte) (fileData[i] ^ XOR_KEY);
         }
     }
 
@@ -137,7 +149,7 @@ public class Encrypter
     {
         for (int i = 0; i < fileData.length; i++)
         {
-            fileData[i] = (byte) ((int) fileData[i] + cesarShift);
+            fileData[i] = (byte) ((int) fileData[i] + CESAR_SHIFT);
         }
     }
     
@@ -149,7 +161,7 @@ public class Encrypter
     {
         for (int i = 0; i < fileData.length; i++)
         {
-            fileData[i] = (byte) ((int)fileData[i] - cesarShift); 
+            fileData[i] = (byte) ((int)fileData[i] - CESAR_SHIFT); 
         }
     }
 }

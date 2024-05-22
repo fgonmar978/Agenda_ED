@@ -3,8 +3,7 @@ package Menues;
 /**
  * Clase abstracta que representa un menu
  * @author Francisco Manuel Gonzalez Martin
- * @version 0.1
- * @since 8/5/2024
+ * @version 1.0
  */
 public abstract class Menu
 {
