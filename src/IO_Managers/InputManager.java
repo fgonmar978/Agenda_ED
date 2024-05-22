@@ -18,12 +18,14 @@ public class InputManager
      */
     public static String askForString(String message, boolean allowEmpty)
     {
-        //TODO: Entrada de datos sin controlar
         String string;
 
         System.out.print(message);
 
-        string = scanner.nextLine().trim();
+        do
+        {
+            string = scanner.nextLine().trim();
+        } while (!allowEmpty && string.isBlank());
 
         return string;
     }
@@ -35,13 +37,28 @@ public class InputManager
      */
     public static int askForInt(String message)
     {
-        //TODO: Entrada de datos sin controlar
-        int number;
+        int number = 0;
 
         System.out.print(message);
 
-        number = scanner.nextInt();
+        boolean error;
 
+        do
+        {
+            error = false;
+
+            try
+            {
+                number = scanner.nextInt();
+            } 
+            catch (Exception e)
+            {
+                System.err.println("Se debe introducir un numero");
+                error = true;
+            }
+
+        } while (error);
+        
         //Limpieza de buffer
         scanner.nextLine();
 
@@ -55,9 +72,29 @@ public class InputManager
      */
     public static boolean askTrueFalseQuestion(String question)
     {
-        //TODO: Entrada de datos sin controlar
         System.out.print(question);
-        char charRead = scanner.next().toLowerCase().charAt(0);
+
+        char charRead = 'c';
+        
+        boolean error;
+
+        do
+        {
+            error = false;
+
+            try
+            {
+                charRead = scanner.next().toLowerCase().charAt(0);
+                if (charRead != 's' && charRead != 'n')
+                    throw new Exception("Caracter no valido");
+            } 
+            catch (Exception e)
+            {
+                System.err.println(e.getMessage());
+                error = true;
+            }
+
+        } while (error);
         
         return charRead == 's';
     }
