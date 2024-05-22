@@ -2,6 +2,8 @@ package paquete;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.StringCache;
+
 public class Contact extends Persona
 {	
 	/**
@@ -164,8 +166,9 @@ public class Contact extends Persona
 	 * <b>Estado</b>:Funcional 
 	 * */
 	@Override
-	public String toString() {
-		return "Contact:\n prefix:" + prefix + "\n phone:" + phone + "\n email:" + email;
+	public String toString()
+	{
+		return super.toString() + String.format("\nTelefono: +%s %s\nEmail: %s", prefix, phone, email);
 	}
 	
 	

@@ -61,7 +61,7 @@ public class EditMenu extends Menu
 
             //Editar prefijo
             case 4:
-                String prefix = InputManager.askForString("Introduce el nuevo prefijo: ", true);
+                String prefix = InputManager.askForString("Introduce el nuevo prefijo (34 por defecto): ", true);
 
                 if (prefix.length() == 0)
                     contact.setPrefix((short) 34);

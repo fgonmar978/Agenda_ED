@@ -62,7 +62,7 @@ public class MainMenu extends Menu
 
             //Editar contacto
             case 2:            
-                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
 
                 if (prefix.isBlank())
@@ -81,7 +81,7 @@ public class MainMenu extends Menu
 
             //Consultar contacto
             case 3:
-                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
                 
                 if (prefix.isBlank())
@@ -100,7 +100,7 @@ public class MainMenu extends Menu
 
             //Eliminar contacto
             case 4:
-                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
                 
                 if (prefix.isBlank())

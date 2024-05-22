@@ -11,6 +11,8 @@ package paquete;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.StringCache;
+
 public class Persona {
 
 	/**
@@ -99,7 +101,11 @@ public class Persona {
 		this.fechaNac = fechaNac;
 	}
 	
-	
+	@Override
+	public String toString()
+	{
+		return String.format("Nombre: %s, Apellidos: %s\nFecha de nacimiento %s", nombre, apellidos, fechaNac);
+	}
 	
 	
 }
