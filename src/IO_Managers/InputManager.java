@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 /**
  * Clase que se encarga de manejar las entradas de teclado
+ * @author Francisco Manuel Gonzalez Martin
+ * @version 1.0
  */
 public class InputManager
 {
@@ -18,12 +20,14 @@ public class InputManager
      */
     public static String askForString(String message, boolean allowEmpty)
     {
-        //TODO: Entrada de datos sin controlar
         String string;
 
-        System.out.print(message);
 
-        string = scanner.nextLine().trim();
+        do
+        {
+            System.out.print(message);
+            string = scanner.nextLine().trim();
+        } while (!allowEmpty && string.isBlank());
 
         return string;
     }
@@ -35,15 +39,32 @@ public class InputManager
      */
     public static int askForInt(String message)
     {
-        //TODO: Entrada de datos sin controlar
-        int number;
+        int number = 0;
 
-        System.out.print(message);
+        boolean error;
 
-        number = scanner.nextInt();
+        do
+        {
+            System.out.print(message);
 
-        //Limpieza de buffer
-        scanner.nextLine();
+            error = false;
+
+            try
+            {
+                number = scanner.nextInt();
+            } 
+            catch (Exception e)
+            {
+                System.err.println("Se debe introducir un numero");
+                error = true;
+            }
+            finally
+            {
+                //Limpieza de buffer
+                scanner.nextLine();
+            }
+
+        } while (error);
 
         return number;
     }
@@ -55,9 +76,29 @@ public class InputManager
      */
     public static boolean askTrueFalseQuestion(String question)
     {
-        //TODO: Entrada de datos sin controlar
-        System.out.print(question);
-        char charRead = scanner.next().toLowerCase().charAt(0);
+        char charRead = 'c';
+        
+        boolean error;
+
+        do
+        {
+            System.out.print(question);
+
+            error = false;
+
+            try
+            {
+                charRead = scanner.next().toLowerCase().charAt(0);
+                if (charRead != 's' && charRead != 'n')
+                    throw new Exception("Caracter no valido");
+            } 
+            catch (Exception e)
+            {
+                System.err.println(e.getMessage());
+                error = true;
+            }
+
+        } while (error);
         
         return charRead == 's';
     }

@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import IO_Managers.InputManager;
 import paquete.Contact;
 
+/**
+ * Menu que se encarga de editar los datos de un contacto
+ * @author Francisco Manuel Gonzalez Martin
+ * @version 1.0
+ */
 public class EditMenu extends Menu
 {
     //Titulo base que se editara segun el contacto que se vaya modificando
@@ -12,7 +17,6 @@ public class EditMenu extends Menu
 
     //Contacto a editar
     private Contact contact;
-
 
     public EditMenu(String[] options, String title)
     {
@@ -57,7 +61,7 @@ public class EditMenu extends Menu
 
             //Editar prefijo
             case 4:
-                String prefix = InputManager.askForString("Introduce el nuevo prefijo: ", true);
+                String prefix = InputManager.askForString("Introduce el nuevo prefijo (34 por defecto): ", true);
 
                 if (prefix.length() == 0)
                     contact.setPrefix((short) 34);

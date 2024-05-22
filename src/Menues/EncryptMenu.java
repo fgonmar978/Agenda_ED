@@ -3,6 +3,11 @@ package Menues;
 import IO_Managers.Encrypter;
 import IO_Managers.EncryptionType;
 
+/**
+ * Menu que se encarga de seleccionar que tipo de encriptacion se va a usar
+ * @author Francisco Manuel Gonzalez Martin
+ * @version 1.0
+ */
 public class EncryptMenu extends Menu
 {
     public EncryptMenu(String[] options, String title)

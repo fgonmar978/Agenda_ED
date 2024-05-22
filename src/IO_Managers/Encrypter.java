@@ -5,20 +5,34 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.LinkedList;
+import java.util.List;
 
+/**
+ * Clase que se encarga de encriptar/desencriptar informacion para despues escribirla o leerla de un fichero binario
+ * @author Francisco Manuel Gonzalez Martin
+ * @since 22/5/2024
+ * @version 1.0
+ */
 public class Encrypter
 {
+    /**Tipo de encriptacion por defecto */
     public static final EncryptionType DEFAULT_ENCRYPTION_TYPE = EncryptionType.XOR;
+
+    /**Tipo de encriptacion seleccionada */
     public static EncryptionType selectedEncryptionType = DEFAULT_ENCRYPTION_TYPE;
 
-    private static final byte xorKey = 74;
-    private static final int cesarShift = 1;
+    /**Clave usada para el cifrado XOR */
+    private static final byte XOR_KEY = 74;
+
+    /**Desplazamiento usado por el cifrado cesar */
+    private static final int CESAR_SHIFT = 1;
 
     /**
      * Crea un fichero, encripta si es necesario los bytes de datos y lo guarda en disco
-     * @param fileData bytes de datos a escribir sin encriptar
+     * @param fileData Lista de bytes que cada array de byte represnta un objeto sin encriptar
      */
-    public static void encryptFile(byte[] fileData)
+    public static void encryptFile(List<byte[]> fileData)
     {
         OutputStream  writer;
 
@@ -33,31 +47,43 @@ public class Encrypter
             return;
         }
 
-        switch (selectedEncryptionType) 
+        //Encriptamos cada objeto
+        for (byte[] bytes : fileData)
         {
-            case XOR:
-                xorEncryption(fileData);
-                break;
+            switch (selectedEncryptionType) 
+            {
+                case XOR:
+                    xorEncryption(bytes);
+                    break;
 
-            case CESAR:
-                cesarEncryption(fileData);
-                break;
+                case CESAR:
+                    cesarEncryption(bytes);
+                    break;
 
-            case AMPLIACION_OPCIONAL:
-                break;
+                case AMPLIACION_OPCIONAL:
+                    break;
 
-            case PROPIO:
-                break;
-            
-            default:
-                break;
+                case PROPIO:
+                    break;
+                
+                default:
+                    break;
+            }
         }
 
         try
         {
             //Guardamos primero el int que representa el encriptado que hemos usado y despues los datos
             writer.write(EncryptionType.encryptionTypeToInt(selectedEncryptionType));
-            writer.write(fileData);
+
+            //Guardo el tamaño de los objetos para poder leerlos luego
+            writer.write(fileData.get(0).length);
+
+            for (byte[] bytes : fileData)
+            {
+                writer.write(bytes);
+            }
+
             writer.close();
         } 
         catch (IOException e)
@@ -72,10 +98,10 @@ public class Encrypter
     /**
      * Lee y desencripta si es necesario los datos de un archivo binario
      * @param filePath Ruta al archivo binario
-     * @return El array de bytes con los datos desencriptados
+     * @return Lista con array de bytes que representan los objetos desencriptados
      * @throws Exception El archivo no existe o no tenemos permiso de lectura
      */
-    public static byte[] unEncryptFile(String filePath) throws Exception
+    public static List<byte[]> unEncryptFile(String filePath) throws Exception
     {
         InputStream input;
 
@@ -90,66 +116,81 @@ public class Encrypter
         //El primer byte es el int que indica como se cifro el archivo
         EncryptionType selectedEncryptionType = EncryptionType.intToEncryptionType(input.read());
 
-        byte[] fileData = input.readAllBytes();
+        int objectSize = input.read();
 
-        switch (selectedEncryptionType)
+        List<byte[]> bytes = new LinkedList<byte[]>();
+
+        byte[] data;
+
+        do
         {
-            case XOR:
-                xorEncryption(fileData);
+            data = input.readNBytes(objectSize);
+
+            if (data == null)
                 break;
 
-            case CESAR:
-                cesarUnEncrypt(fileData);
-                break;
+            switch (selectedEncryptionType)
+            {
+                case XOR:
+                    xorEncryption(data);
+                    break;
+    
+                case CESAR:
+                    cesarUnEncrypt(data);
+                    break;
+    
+                case AMPLIACION_OPCIONAL:
+                    break;
+    
+                case PROPIO:
+                    break;
+    
+                default:
+                    break;
+            }
+            
+            bytes.add(data);
 
-            case AMPLIACION_OPCIONAL:
-                break;
-
-            case PROPIO:
-                break;
-
-            default:
-                break;
-        }
+        } while (true);
 
         input.close();
 
-        return fileData;
+        return bytes;
     }
 
     /**
      * Encripta el array de bytes usando la operacion XOR
-     * @param fileData array de bytes a encriptar
+     * @param data array de bytes a encriptar
      */
-    private static void xorEncryption(byte[] fileData)
+    private static void xorEncryption(byte[] data)
     {
-        for (int i = 0; i < fileData.length; i++)
+        for (int i = 0; i < data.length; i++)
         {
-            fileData[i] = (byte) (fileData[i] ^ xorKey);
+            data[i] = (byte) (data[i] ^ XOR_KEY);
         }
     }
 
     /**
      * Encripta el array de bytes desplazando los bytes (debemos tener cuidado de no salirnos de la tabla ASCII)
-     * @param fileData array de bytes a encriptar
+     * @param data array de bytes a encriptar
      */
-    private static void cesarEncryption(byte[] fileData)
+    private static void cesarEncryption(byte[] data)
     {
-        for (int i = 0; i < fileData.length; i++)
+        for (int i = 0; i < data.length; i++)
         {
-            fileData[i] = (byte) ((int) fileData[i] + cesarShift);
+            data[i] = (byte) ((int) data[i] + CESAR_SHIFT);
         }
     }
     
     /**
      * Deshace la encriptacion cesar
-     * @param fileData array de bytes encriptados
+     * @param data array de bytes encriptados
      */
-    private static void cesarUnEncrypt(byte[] fileData)
+    private static void cesarUnEncrypt(byte[] data)
     {
-        for (int i = 0; i < fileData.length; i++)
+        for (int i = 0; i < data.length; i++)
         {
-            fileData[i] = (byte) ((int)fileData[i] - cesarShift); 
+            data[i] = (byte) ((int) data[i] - CESAR_SHIFT);
         }
     }
 }

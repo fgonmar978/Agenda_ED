@@ -7,13 +7,17 @@ import paquete.ContactList;
 /**
  * Clase que representa el menu principal
  * @author Francisco Manuel Gonzalez Martin
- * @version 0.1
- * @since 25/4/2024
+ * @version 1.0
  */
 public class MainMenu extends Menu
 {
+    /**Lista de contactos con la que trabajara el menu */
     private ContactList contactList;
+
+    /**Menu para editar un contacto */
     private EditMenu editMenu;
+
+    /**Menu para editar que tipo de encriptacion se va a usar */
     private EncryptMenu encryptMenu;
 
     /**
@@ -58,49 +62,65 @@ public class MainMenu extends Menu
 
             //Editar contacto
             case 2:            
-                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
 
-                //TODO: Controlar errores de conversion
                 if (prefix.isBlank())
                     editingContact(contactList.getContact(phone, Contact.PREFIX_DEFAULT));
                 else
-                    editingContact(contactList.getContact(phone, Short.parseShort(prefix)));
+                    try
+                    {
+                        editingContact(contactList.getContact(phone, Short.parseShort(prefix)));
+                    } 
+                    catch (Exception e)
+                    {
+                        System.err.println("Error al leer el prefijo de numero");
+                    }
                     
                 break;
 
             //Consultar contacto
             case 3:
-                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
                 
-                //TODO: Controlar errores de conversion
-
                 if (prefix.isBlank())
                     contactList.showContact(phone, Contact.PREFIX_DEFAULT);
                 else
-                    contactList.showContact(phone, Short.parseShort(prefix));
+                    try
+                    {
+                        contactList.showContact(phone, Short.parseShort(prefix));
+                    } 
+                    catch (Exception e)
+                    {
+                        System.err.println("Error al leer el prefijo de numero");
+                    }
 
                 break;
 
             //Eliminar contacto
             case 4:
-                prefix = InputManager.askForString("Introduzca el prefijo de telefono: ", true);
+                prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
                 
-                //TODO: Controlar errores de conversion
-
                 if (prefix.isBlank())
                     if (!contactList.deleteContact(phone, Contact.PREFIX_DEFAULT))
                         System.err.println("No se ha encontrado el contacto");
                     else
                         System.err.println("Se ha eliminado el contacto");
                 else
-                    if (!contactList.deleteContact(phone, Short.parseShort(prefix)))
-                        System.err.println("No se ha encontrado el contacto");
-                    else
-                        System.err.println("Se ha eliminado el contacto");
-
+                    try
+                    {
+                        if (!contactList.deleteContact(phone, Short.parseShort(prefix)))
+                            System.err.println("No se ha encontrado el contacto");
+                        else
+                            System.err.println("Se ha eliminado el contacto");
+                    } 
+                    catch (Exception e)
+                    {
+                        System.err.println("Error al leer el prefijo de numero");
+                    }
+                    
                 break;
 
             //Numero de contactos
