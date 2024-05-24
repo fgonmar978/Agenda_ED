@@ -9,11 +9,10 @@
 
 package paquete;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.StringCache;
-
-public class Persona {
+public class Persona implements Serializable{
 
 	/**
 	 * Atributo: nombre
@@ -30,6 +29,11 @@ public class Persona {
 	 */
 	protected LocalDate fechaNac;
 	
+	public Persona()
+	{
+
+	}
+
 	/**
 	 * Constructor único
 	 * <b>Descripcion</b>:Crea el objeto persona con nombre, apellidos y fecha de nacimiento

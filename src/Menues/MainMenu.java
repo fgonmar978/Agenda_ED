@@ -1,5 +1,8 @@
 package Menues;
 
+import java.io.IOException;
+
+import IO_Managers.FileManager;
 import IO_Managers.InputManager;
 import paquete.Contact;
 import paquete.ContactList;
@@ -163,6 +166,15 @@ public class MainMenu extends Menu
 
             //Listar en fichero de texto
             case 7:
+                try
+                {
+                    FileManager.saveToTextFile(contactList);
+                } 
+                catch (IOException e)
+                {
+                    System.err.println("Error al guardar el archivo TXT");
+                    e.printStackTrace();
+                }
                 break;
 
             //Configuracion encriptacion
@@ -207,20 +219,5 @@ public class MainMenu extends Menu
             System.out.println(encryptMenu);
             option = InputManager.askForInt("Selecciona una opcion: ");
         } while (encryptMenu.selectOption(option));
-    }
-
-    @Override
-    public String toString()
-    {
-        StringBuffer menuString = new StringBuffer();
-        menuString.append(title);
-        menuString.append("\n-----------------\n");
-
-        for (int i = 0; i < editOptions.length; i++)
-        {
-            menuString.append(String.format("%d: %s\n", i, options[i]));
-        }
-
-        return menuString.toString();
     }
 }
