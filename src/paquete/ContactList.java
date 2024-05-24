@@ -1,8 +1,8 @@
 package paquete;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import IO_Managers.InputManager;
 
@@ -15,15 +15,15 @@ public class ContactList
 	public static final int TAM = 10;
 	
 	/**
-	 * Atributo : array de contacto
+	 * Atributo : lista de contacto
 	 */
-	private Contact contactos[];
+	private TreeSet<Contact> contactos;
 	
 	/**
-	 * Constructor: crea el array contactos
+	 * Constructor: crea la lista contactos
 	 */
 	public ContactList() {
-		contactos = new Contact[TAM];
+		contactos = new TreeSet<Contact>();
 	}
 	
 	
@@ -31,7 +31,7 @@ public class ContactList
 	 * Getter del ContactList
 	 * @return Contact[]
 	 */
-	public Contact[] getContactos() {
+	public TreeSet<Contact> getContactos() {
 		return contactos;
 	}
 
@@ -99,15 +99,8 @@ public class ContactList
 	 */
 	public boolean addContact(Contact c) {
 		
-		int i = 0;
-		for(i = 0; i < contactos.length; i++) {
-			if(contactos[i] == null) {
-				contactos[i] = c;
-				return true;
-			}
-		}
+		return contactos.add(c);
 		
-		return false;
 	}
 	
 	 
@@ -119,10 +112,6 @@ public class ContactList
 	 public Contact getContact(String telefono, short prefijo) {
 		 
 		 for(Contact c: contactos) {
-			 
-			 if(c == null) {
-				 continue;
-			 }
 			 
 			 if(c.getPrefix() == Contact.PREFIX_DEFAULT)
 				 if(c.comparePhone(telefono))
@@ -145,11 +134,12 @@ public class ContactList
 		 
 		 Contact buscado = getContact(telefono, prefijo);
 		 
-		 if(buscado == null)
-			 System.out.println("\nNo existe el contacto buscado.");
-		 else
+		 if(contactos.contains(buscado)) {
 			 System.out.println(buscado);
-			 
+		 }else {
+			 System.out.println("\nNo existe el contacto buscado.");
+		 }
+
 	 }
 	 
 	 
@@ -161,12 +151,8 @@ public class ContactList
 	 public boolean deleteContact(String telefono, short prefijo) {
 		 Contact buscado = getContact(telefono, prefijo);
 		 
-		 if(buscado != null) {
-			 buscado = null;
-			 return true;
-		 }
+		 return contactos.remove(buscado);
 		
-		 return false;
 	 }
 	 
 	 /**
@@ -175,15 +161,7 @@ public class ContactList
 	  */
 	 public int getNumberContacts() {
 		 
-		 int total = 0;
-		 
-		 for(Contact c: contactos) {
-			 
-			 if(c != null)
-				 total += 1;
-		 }
-		 
-		 return total;
+		 return contactos.size();
 	 }
 	 
 	 
@@ -192,16 +170,13 @@ public class ContactList
 	  * @return void
 	  */
 	 public void showContacts() {
+
+		 Iterator<Contact> icontactos = contactos.iterator();
 		 
-		 int i = 1;
+		 while(icontactos.hasNext()) {
+			 System.out.println(icontactos.next().toString());
+		 }
 		 
-		 for(Contact c: contactos) {
-			 
-			 if(c != null) {
-				 System.out.println(i + ". " + c.toString());
-				 i++;
-			 }
-		 } 
 	 }
 	 
 }

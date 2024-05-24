@@ -29,16 +29,14 @@ public class FileManager
 	 */
 	public static List<byte[]> saveToBinaryFile(ContactList contactlist) throws IOException {
 		
-		int i = 0;
-		
 		ByteArrayOutputStream bs = new ByteArrayOutputStream();
 		ObjectOutputStream os = new ObjectOutputStream(bs);
 		
-		for(i = 0; i< ContactList.TAM; i++) {
-			
-			os.writeObject(contactlist.getContactos()[i]);
+		for(Contact c: contactlist.getContactos()) {
+			os.writeObject(c);
 			os.flush();
 			listaContactos.add(bs.toByteArray());
+			
 		}
 		
 		return FileManager.listaContactos;

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.StringCache;
 
-public class Contact extends Persona
+public class Contact extends Persona implements Comparable<Contact>
 {	
 	/**
 	 * Atributo: prefijo
@@ -170,14 +170,50 @@ public class Contact extends Persona
 	{
 		return super.toString() + String.format("\nTelefono: +%s %s\nEmail: %s", prefix, phone, email);
 	}
+
 	
+	/**
+	 * <b>Descripcion</b>: Compara dos objetos para ordenarlos según el teléfono y nombre
+	 * <b>Parámetros</b>: Contact o
+	 * <b>Valor retornado</b>: int
+	 * <b>Estado</b>:Funcional 
+	 */
+	@Override
+	public int compareTo(Contact o) {
+		
+		int mismoNombre=o.nombre.compareTo(nombre);
+		
+		if(this.equals(o))
+			return 0;
+		
+		if(mismoNombre == 0) {
+			return o.phone.compareTo(phone);
+		}else {
+			return mismoNombre;
+		}
+
+	}
 	
-	/* 
+	/**
+	 * <b>Descripcion</b>: Compara dos objetos y devuelve si son iguales o no
+	 * <b>Parámetros</b>: Object contact
+	 * <b>Valor retornado</b>: boolean
+	 * <b>Estado</b>:Funcional 
+	 */
 	@Override
 	public boolean equals(Object contact) {
-		if(this.phone.equals(phone) && this.prefix == prefix) return true;
+		
+		if(contact ==  null) return false;
+		
+		if(this == contact) return true;
+		
+		if(this.getClass() != contact.getClass()) return false;
+		
+		Contact c = (Contact) contact;
+		if(this.phone.equals(c.phone) && this.prefix == c.prefix) return true;
 		
 		return false;
 	}
-	*/
+
+	
 }
