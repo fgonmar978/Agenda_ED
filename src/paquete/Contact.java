@@ -2,8 +2,6 @@ package paquete;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.StringCache;
-
 public class Contact extends Persona implements Comparable<Contact>
 {	
 	/**
@@ -23,6 +21,11 @@ public class Contact extends Persona implements Comparable<Contact>
 	 */
 	 public static final short PREFIX_DEFAULT = 34;
 	 
+	public Contact()
+	{
+		
+	}
+
 	/**
 	 * Constructor 1
 	 * <b>Descripcion</b>:Crea el objeto contacto con nombre, apellidos, fecha de nacimiento y telefono

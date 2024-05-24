@@ -76,12 +76,14 @@ public class Encrypter
             //Guardamos primero el int que representa el encriptado que hemos usado y despues los datos
             writer.write(EncryptionType.encryptionTypeToInt(selectedEncryptionType));
 
-            //Guardo el tamaño de los objetos para poder leerlos luego
-            writer.write(fileData.get(0).length);
-
-            for (byte[] bytes : fileData)
+                        
+            for (int i = 0; i < fileData.size(); i++)
             {
-                writer.write(bytes);
+                //Guando primero el tamaño del objeto en bytes
+                writer.write(fileData.get(i).length);
+
+                //Guardo el objeto
+                writer.write(fileData.get(i));
             }
 
             writer.close();
@@ -116,7 +118,7 @@ public class Encrypter
         //El primer byte es el int que indica como se cifro el archivo
         EncryptionType selectedEncryptionType = EncryptionType.intToEncryptionType(input.read());
 
-        int objectSize = input.read();
+        int objectSize;
 
         List<byte[]> bytes = new LinkedList<byte[]>();
 
@@ -124,10 +126,13 @@ public class Encrypter
 
         do
         {
-            data = input.readNBytes(objectSize);
-
-            if (data == null)
+            //Leo el tamaño del siguiente contacto
+            objectSize = input.read();
+            
+            if (objectSize == -1)
                 break;
+        
+            data = input.readNBytes(objectSize);
 
             switch (selectedEncryptionType)
             {
