@@ -100,7 +100,7 @@ public abstract class Menu
     @Override
     public String toString()
     {
-        StringBuffer menuString = new StringBuffer(title + "\n");
+        StringBuffer menuString = new StringBuffer("\n" + title + "\n");
         for (int i = 0; i < options.length; i++)
         {
             menuString.append(String.format("%d. %s\n", i, options[i]));

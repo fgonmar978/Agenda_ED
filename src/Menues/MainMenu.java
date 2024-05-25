@@ -46,6 +46,8 @@ public class MainMenu extends Menu
         String prefix;
         String phone;
 
+        System.out.println();
+
         switch (option)
         {
             //Salir
@@ -67,7 +69,8 @@ public class MainMenu extends Menu
             case 2:            
                 prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
-
+                System.out.println();
+                
                 if (prefix.isBlank())
                     editingContact(contactList.getContact(phone, Contact.PREFIX_DEFAULT));
                 else
@@ -86,6 +89,7 @@ public class MainMenu extends Menu
             case 3:
                 prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
+                System.out.println();
                 
                 if (prefix.isBlank())
                     contactList.showContact(phone, Contact.PREFIX_DEFAULT);
@@ -97,6 +101,7 @@ public class MainMenu extends Menu
                     catch (Exception e)
                     {
                         System.err.println("Error al leer el prefijo de numero");
+                        e.printStackTrace();
                     }
 
                 break;
@@ -105,6 +110,7 @@ public class MainMenu extends Menu
             case 4:
                 prefix = InputManager.askForString("Introduzca el prefijo de telefono (34 por defecto): ", true);
                 phone = InputManager.askForString("Introduzca el numero de telefono: ", false);
+                System.out.println();
                 
                 if (prefix.isBlank())
                     if (!contactList.deleteContact(phone, Contact.PREFIX_DEFAULT))
@@ -196,6 +202,12 @@ public class MainMenu extends Menu
      */
     private void editingContact(Contact contact)
     {
+        if (contact == null)
+        {
+            System.err.println("No se encontro al contacto");
+            return;
+        }
+        
         int option;
         editMenu.setContact(contact);
 

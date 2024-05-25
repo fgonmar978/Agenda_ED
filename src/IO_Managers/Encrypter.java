@@ -5,14 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Clase que se encarga de encriptar/desencriptar informacion para despues escribirla o leerla de un fichero binario
  * @author Francisco Manuel Gonzalez Martin
- * @since 22/5/2024
- * @version 1.0
+ * @since 25/5/2024
+ * @version 1.1
  */
 public class Encrypter
 {
@@ -30,12 +28,13 @@ public class Encrypter
 
     /**
      * Crea un fichero, encripta si es necesario los bytes de datos y lo guarda en disco
-     * @param fileData Lista de bytes que cada array de byte represnta un objeto sin encriptar
+     * @param fileData Array de bytes que represnta los contactos sin encriptar
      */
-    public static void encryptFile(List<byte[]> fileData)
+    public static void encryptFile(byte[] fileData)
     {
-        OutputStream  writer;
+        OutputStream writer;
 
+        //Abrimos archivo
         try
         {
             writer = new FileOutputStream(FileManager.BINARY_FILE);
@@ -47,44 +46,32 @@ public class Encrypter
             return;
         }
 
-        //Encriptamos cada objeto
-        for (byte[] bytes : fileData)
+        //Encriptamos datos
+        switch (selectedEncryptionType)
         {
-            switch (selectedEncryptionType) 
-            {
-                case XOR:
-                    xorEncryption(bytes);
-                    break;
+            case XOR:
+                xorEncryption(fileData);
+                break;
 
-                case CESAR:
-                    cesarEncryption(bytes);
-                    break;
+            case CESAR:
+                cesarEncryption(fileData);
+                break;
 
-                case AMPLIACION_OPCIONAL:
-                    break;
+            case AMPLIACION_OPCIONAL:
+                break;
 
-                case PROPIO:
-                    break;
-                
-                default:
-                    break;
-            }
+            case PROPIO:
+                break;
+
+            default:
+                break;
         }
-
+        
         try
         {
             //Guardamos primero el int que representa el encriptado que hemos usado y despues los datos
             writer.write(EncryptionType.encryptionTypeToInt(selectedEncryptionType));
-
-                        
-            for (int i = 0; i < fileData.size(); i++)
-            {
-                //Guando primero el tamaño del objeto en bytes
-                writer.write(fileData.get(i).length);
-
-                //Guardo el objeto
-                writer.write(fileData.get(i));
-            }
+            writer.write(fileData);
 
             writer.close();
         } 
@@ -100,69 +87,54 @@ public class Encrypter
     /**
      * Lee y desencripta si es necesario los datos de un archivo binario
      * @param filePath Ruta al archivo binario
-     * @return Lista con array de bytes que representan los objetos desencriptados
+     * @return Array de bytes que representan los objetos desencriptados
      * @throws Exception El archivo no existe o no tenemos permiso de lectura
      */
-    public static List<byte[]> unEncryptFile(String filePath) throws Exception
+    public static byte[] unEncryptFile(String filePath) throws Exception
     {
         InputStream input;
 
+        //Abrimos archivo
         try
         {
             input = new FileInputStream(filePath);
-        } catch (Exception e)
+        } 
+        catch (Exception e)
         {
             throw e;
         }
 
         //El primer byte es el int que indica como se cifro el archivo
-        EncryptionType selectedEncryptionType = EncryptionType.intToEncryptionType(input.read());
+        selectedEncryptionType = EncryptionType.intToEncryptionType(input.read());
 
-        int objectSize;
+        //Leemos el resto de bytes y desencriptamos
+        byte[] fileData = input.readAllBytes();
 
-        List<byte[]> bytes = new LinkedList<byte[]>();
-
-        byte[] data;
-
-        do
+        switch (selectedEncryptionType)
         {
-            //Leo el tamaño del siguiente contacto
-            objectSize = input.read();
-            
-            if (objectSize == -1)
+            case XOR:
+                xorEncryption(fileData);
                 break;
-        
-            data = input.readNBytes(objectSize);
 
-            switch (selectedEncryptionType)
-            {
-                case XOR:
-                    xorEncryption(data);
-                    break;
-    
-                case CESAR:
-                    cesarUnEncrypt(data);
-                    break;
-    
-                case AMPLIACION_OPCIONAL:
-                    break;
-    
-                case PROPIO:
-                    break;
-    
-                default:
-                    break;
-            }
-            
-            bytes.add(data);
+            case CESAR:
+                cesarUnEncrypt(fileData);
+                break;
 
-        } while (true);
+            case AMPLIACION_OPCIONAL:
+                break;
 
+            case PROPIO:
+                break;
+
+            default:
+                break;
+        }
+
+        //Cerramos archivo y devolvemos los datos
         input.close();
-
-        return bytes;
+        return fileData;
     }
-
+    
     /**
      * Encripta el array de bytes usando la operacion XOR
      * @param data array de bytes a encriptar

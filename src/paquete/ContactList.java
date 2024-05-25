@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import java.io.Serializable;
+
 import IO_Managers.InputManager;
 
-public class ContactList
+public class ContactList implements Serializable
 {
 
 	/**
@@ -63,7 +65,7 @@ public class ContactList
 		
 		do {
 			dia = InputManager.askForInt("\nIntroduzca el dia:");
-		}while(dia < 1 && dia > 31);
+		}while(dia < 1 || dia > 31);
 		/* Creamos la instancia de birthdate */
 		birthdate = LocalDate.of(anio, mes, dia);
 		
@@ -113,12 +115,10 @@ public class ContactList
 		 
 		 for(Contact c: contactos) {
 			 
-			 if(c.getPrefix() == Contact.PREFIX_DEFAULT)
-				 if(c.comparePhone(telefono))
-					 return c;
-			 else
-				 if(c.comparePhone(prefijo, telefono))
-					 return c;
+			if (c.getPrefix() == Contact.PREFIX_DEFAULT && c.comparePhone(telefono))
+				return c;
+			else if(c.comparePhone(prefijo, telefono))
+				return c;
 		 }
 		 
 		 return null;
@@ -134,7 +134,7 @@ public class ContactList
 		 
 		 Contact buscado = getContact(telefono, prefijo);
 		 
-		 if(contactos.contains(buscado)) {
+		 if(buscado != null) {
 			 System.out.println(buscado);
 		 }else {
 			 System.out.println("\nNo existe el contacto buscado.");
@@ -149,9 +149,12 @@ public class ContactList
 	  * @return: boolean que indica si se ha realizado correctamente el proceso
 	  */
 	 public boolean deleteContact(String telefono, short prefijo) {
-		 Contact buscado = getContact(telefono, prefijo);
+		Contact buscado = getContact(telefono, prefijo);
 		 
-		 return contactos.remove(buscado);
+		if (buscado == null)
+			return false;
+
+		return contactos.remove(buscado);
 		
 	 }
 	 
@@ -171,11 +174,13 @@ public class ContactList
 	  */
 	 public void showContacts() {
 
-		 Iterator<Contact> icontactos = contactos.iterator();
+		Iterator<Contact> icontactos = contactos.iterator();
 		 
-		 while(icontactos.hasNext()) {
-			 System.out.println(icontactos.next().toString());
-		 }
+		while (icontactos.hasNext())
+		{
+			System.out.println();
+			System.out.println(icontactos.next().toString());
+		}
 		 
 	 }
 	 
