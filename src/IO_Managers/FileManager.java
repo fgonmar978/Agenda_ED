@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import paquete.Contact;
 import paquete.ContactList;
@@ -17,51 +15,42 @@ public class FileManager
 {
 	
     public static final String BINARY_FILE = "agenda.bin";
-    public static final String TEXT_FILE = "agenda.txt";
-
-	static List<byte[]> listaContactos = new ArrayList<byte[]>();
-
+	public static final String TEXT_FILE = "agenda.txt";
+	
 	/**
-	 * Descripción: convierte la lista de objetos a una list de array de bytes
+	 * Descripción: convierte la lista de objetos a un array de bytes
 	 * @param contactlist
-	 * @return List<byte[]>
+	 * @return byte[]
 	 * @throws IOException
 	 */
-	public static List<byte[]> saveToBinaryFile(ContactList contactlist) throws IOException {
+	public static byte[] saveToBinaryFile(ContactList contactlist) throws IOException {
 		
 		ByteArrayOutputStream bs = new ByteArrayOutputStream();
 		ObjectOutputStream os = new ObjectOutputStream(bs);
 		
-		for(Contact c: contactlist.getContactos()) {
-			os.writeObject(c);
-			os.flush();
-			listaContactos.add(bs.toByteArray());
-			
-		}
+		os.writeObject(contactlist);
+		os.flush();
 		
-		return FileManager.listaContactos;
+		return bs.toByteArray();
 	}
 	
 	
 	/**
-	 * Descripción: convierte la lista de bytes al ContactList con objetos Contact
+	 * Descripción: convierte el array de bytes al ContactList con objetos Contact
 	 * @param fileData
 	 * @return ContactList
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static ContactList readFromBinaryFile(List<byte[]> fileData) throws IOException, ClassNotFoundException {
-		ContactList listaC = new ContactList();
-				
-		int i = 0;
+	public static ContactList readFromBinaryFile(byte[] fileData) throws IOException, ClassNotFoundException {
+		ContactList listaC;
+						
+		ByteArrayInputStream bs = new ByteArrayInputStream(fileData);
+		ObjectInputStream is = new ObjectInputStream(bs);
 
-		for(i = 0; i < fileData.size(); i++) {
-			ByteArrayInputStream bs = new ByteArrayInputStream(fileData.get(i));
-			ObjectInputStream is = new ObjectInputStream(bs);
-			listaC.addContact((Contact) is.readObject());
-			is.close();
-		}
-		
+		listaC = (ContactList) is.readObject();
+		is.close();
+
 		return listaC;
 	}
 	
