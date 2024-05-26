@@ -97,6 +97,11 @@ public class InputManager
                 System.err.println(e.getMessage());
                 error = true;
             }
+            finally
+            {
+                //Limpieza de buffer
+                scanner.nextLine();
+            }
 
         } while (error);
         
