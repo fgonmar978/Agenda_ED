@@ -31,7 +31,7 @@ public class ContactListTest {
         try{
             Contact c = new Contact("Juan", "Gonzalez", LocalDate.now(), "667154565");
             clista.addContact(c);
-            if (clista.getContact(c.getPhone(), c.getPrefix()) == c) {
+            if (clista.getContact(c.getPhone(), c.getPrefix()) != c) {
                 clista.createContact();
             }
         }catch(Exception e){
