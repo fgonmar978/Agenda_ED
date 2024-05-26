@@ -3,7 +3,7 @@ package pruebas;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
-import java.util.TreeSet;
+
 
 import org.junit.jupiter.api.Test;
 
@@ -16,50 +16,66 @@ public class ContactListTest {
     void testAddContact() {
         ContactList clista = new ContactList();
         Contact c = new Contact("lucia", "miguel", LocalDate.now(), "696879131");
-    
-        try{
-            clista.addContact(c);
-        }catch(Exception e){
-            fail("Falla al añadir contacto a la lista" + e.getMessage());
-        }         
+        
+        clista.addContact(c);
+        if(clista.getContact(c.getPhone(),c.getPrefix()) != c) {
+            fail("Fallo el contacto no se ha podido añadir a la lista");
+        }
         
     }
 
     @Test
     void testCreateContact() {
         ContactList clista = new ContactList();
-        Contact c = new Contact("lucia", "miguel", LocalDate.now(), "696879131");
-
+        
         try{
-            Contact c1 = new Contact("Juan", "Gonzalez", LocalDate.now(), "667154565");
-            clista.addContact(c1);
+            Contact c = new Contact("Juan", "Gonzalez", LocalDate.now(), "667154565");
+            clista.addContact(c);
+            if (clista.getContact(c.getPhone(), c.getPrefix()) == c) {
+                clista.createContact();
+            }
         }catch(Exception e){
             fail("Fallo no se ha creado el contacto" + e.getMessage());
+            
         }
         try{
-            Contact c1 = new Contact();
-            clista.addContact(c1);
+            Contact c2 = new Contact();
+            clista.addContact(c2);
+            if (clista.getContact(c2.getPhone(), c2.getPrefix()) != c2) {
+                fail("Fallo no se ha creado el contacto");
+            }
         }catch(Exception e){
             fail("Fallo no se ha creado el contacto con parametros vacios" + e.getMessage());
         }
         try{
-            Contact c1 = new Contact("", "", LocalDate.now(), "667154565");
-            clista.addContact(c1);
+            Contact c3 = new Contact("", "", LocalDate.now(), "667154565");
+            clista.addContact(c3);
+            if (clista.getContact(c3.getPhone(), c3.getPrefix()) != c3) {
+                fail("Fallo no se ha creado el contacto");
+            }
         }catch(Exception e){
             fail("Fallo no se ha creado el contacto" + e.getMessage());
         }
+        try{
+            Contact c4 = new Contact("Pepe", "Gonzlez", LocalDate.now(), "667154565","pepe@gmail.com");
+            clista.addContact(c4);
+            if (clista.getContact(c4.getPhone(), c4.getPrefix()) != c4) {
+                fail("Fallo no se ha creado el contacto");
+            }
+        }catch(Exception e){
+            fail("Fallo no se ha creado el contacto" + e.getMessage());
+        }
+        
     }
 
     @Test
     void testDeleteContact() {
         ContactList clista = new ContactList();
         Contact c = new Contact("lucia", "miguel", LocalDate.now(), "696879131");
-    
-        if(clista.getContact(c.getPhone(), c.getPrefix()) == c){
-            clista.deleteContact(c.getPhone(), c.getPrefix());
-            fail("No se ha podido borrar el contacto");
-        }else{
-            fail("Fallo no se ha podido encontrar el contacto");
+        
+        clista.addContact(c);
+        if(!clista.deleteContact(c.getPhone(),c.getPrefix())){
+            fail("No se ha podido eliminar el contacto");
         }
     }
 
@@ -101,13 +117,25 @@ public class ContactListTest {
     void testShowContact() {
         ContactList clista = new ContactList();
         Contact c = new Contact("lucia", "miguel", LocalDate.now(), "696879131");
-    }
+        clista.addContact(c);
+        if(clista.getContact(c.getPhone(), c.getPrefix()) == c){
+            clista.showContact(c.getPhone(), c.getPrefix());
+        }else 
+            fail("No se ha podido mostrar el contacto");
 
+        clista.deleteContact(c.getPhone(),c.getPrefix());
+        if (clista.getContact(c.getPhone(), c.getPrefix()) != c) {
+            System.out.println("No se ha podido mostrar el contacto");
+        } else {
+            fail("El contacto todavía existe después de eliminarlo");
+        }
+    }
+    
     @Test
     void testShowContacts() {
         ContactList clista = new ContactList();
         Contact c = new Contact("lucia", "miguel", LocalDate.now(), "696879131");
         clista.addContact(c);
-        clista.showContact(c.getPhone(), c.getPrefix());
+        clista.showContacts();
     }
 }
